@@ -1,0 +1,61 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gemini Voice Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+</head>
+<body>
+    <h1>Gemini Voice Assistant</h1>
+    <button onclick="startRecording()">Start Recording</button>
+    <button onclick="stopRecording()">Stop Recording</button>
+    <p id="transcript"></p>
+    <audio id="responseAudio" controls></audio>
+
+    <script>
+        const socket = io();
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Request microphone access
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+                audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = () => {
+                    const base64Audio = reader.result.split(',')[1];
+                    socket.emit('voice_input', base64Audio);
+                };
+            };
+
+            mediaRecorder.start();
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+        }
+
+        // Handle server response
+        socket.on('voice_response', (data) => {
+            document.getElementById('transcript').innerText = data.text;
+            const audio = document.getElementById('responseAudio');
+            audio.src = `data:audio/mp3;base64,${data.audio}`;
+            audio.play();
+        });
+
+        socket.on('error', (error) => {
+            console.error('Error:', error);
+            document.getElementById('transcript').innerText = 'Error: ' + error;
+        });
+    </script>
+</body>
+</html>
