@@ -1,21 +1,22 @@
 # AI Receptionist
 
-A professional AI-powered receptionist that can handle phone calls through Twilio and provide intelligent responses using Google's Gemini AI. The system supports both phone calls and web-based voice interactions.
+A professional AI-powered receptionist that can handle phone calls through Exotel (Indian VoIP service) and provide intelligent responses using Google's Gemini AI. The system supports both phone calls and web-based voice interactions.
 
 ## Features
 
-- 📞 **Phone Call Handling**: Receive and process incoming phone calls via Twilio
+- 📞 **Phone Call Handling**: Receive and process incoming phone calls via Exotel (Indian numbers)
 - 🎤 **Voice Recognition**: Convert speech to text using Google Speech Recognition
 - 🤖 **AI Responses**: Generate intelligent responses using Google Gemini AI
 - 🔊 **Text-to-Speech**: Convert AI responses back to speech
 - 🌐 **Web Interface**: Browser-based voice interaction for testing
 - 📝 **Logging**: Comprehensive logging for debugging and monitoring
 - 🔐 **Secure**: Environment variable-based configuration for API keys
+- 🇮🇳 **India-Optimized**: Uses Exotel for better connectivity and lower costs in India
 
 ## Prerequisites
 
 - Python 3.8 or higher
-- Twilio account with phone number
+- Exotel account with Indian phone number
 - Google Cloud account with Gemini API access
 - Internet connection for API calls
 

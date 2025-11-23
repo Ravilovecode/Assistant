@@ -1,0 +1,25 @@
+# Render Blueprint - Infrastructure as Code
+# This file allows one-click deployment to Render
+
+services:
+  - type: web
+    name: ai-receptionist
+    env: python
+    region: oregon  # Change to your preferred region
+    plan: free  # Options: free, starter ($7), standard ($25)
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --worker-class eventlet -w 1 app:app --bind 0.0.0.0:$PORT --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: GEMINI_API_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: TWILIO_ACCOUNT_SID
+        sync: false  # Set manually in Render dashboard
+      - key: TWILIO_AUTH_TOKEN
+        sync: false  # Set manually in Render dashboard
+      - key: SECRET_KEY
+        generateValue: true  # Render will auto-generate
+      - key: BASE_URL
+        value: https://ai-receptionist.onrender.com  # Update with your actual URL
