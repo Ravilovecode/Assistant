@@ -9,6 +9,4 @@ requests==2.31.0
 pydub==0.25.1
 python-socketio==5.9.0
 eventlet==0.33.3
-websockets==14.1
-audioop-lts==0.2.1
 gunicorn==21.2.0
